@@ -106,6 +106,7 @@ BOOLEAN init(void)
 	stack=NULL;
 	lineno=1;
 
+	return TRUE;
 }
 
 void usage(char *prog)
