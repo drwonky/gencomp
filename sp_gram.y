@@ -115,11 +115,11 @@ parameter_def:
 					printf("Input parameter: %s -> %s\n",$3,$2); 
 					#endif
 
-					if(!pr_input) {
+/*					if(!pr_input) {
 						if(!(pr_input=create_symtab_node(symbol_table,"input",NULL,SYMTAB_NUL))) {
 							yyerror("Error creating input class\n");
 						}
-					}
+					}*/
 
 					if(!(tmp_node=create_symtab_node(pr_input,$3,NULL,SYMTAB_NUL))) {
 						yyerror("Error adding input parm %s to symbol table",$3);
@@ -151,11 +151,11 @@ parameter_def:
 					printf("Output parameter: %s -> %s\n",$3,$2); 
 					#endif
 
-					if(!pr_output) {
+/*					if(!pr_output) {
 						if(!(pr_output=create_symtab_node(symbol_table,"output",NULL,SYMTAB_NUL))) {
 							yyerror("Error creating output class\n");
 						}
-					}
+					}*/
 
 					if(!(tmp_node=create_symtab_node(pr_output,$3,NULL,SYMTAB_NUL))) {
 						yyerror("Error adding output parm %s to symbol table",$3);
@@ -187,11 +187,11 @@ parameter_def:
 					printf("Result parameter: %s -> %s\n",$3,$2); 
 					#endif
 
-					if(!pr_result) {
+/*					if(!pr_result) {
 						if(!(pr_result=create_symtab_node(symbol_table,"result",NULL,SYMTAB_NUL))) {
 							yyerror("Error creating result class\n");
 						}
-					}
+					}*/
 
 					if(!(tmp_node=create_symtab_node(pr_result,$3,NULL,SYMTAB_NUL))) {
 						yyerror("Error adding result parm %s to symbol table",$3);

@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 				}
 				p++;
 
-				if(!(fd=open(p,O_WRONLY|O_CREAT|O_TRUNC,00664))) {
+				if((fd=open(p,O_WRONLY|O_CREAT|O_TRUNC,00664))==-1) {
 					fprintf(stderr,"Couldn't open %s for write\n",p);
 					exit(1);
 				}
@@ -201,6 +201,24 @@ int main(int argc, char *argv[])
 	if(!init_program()) {
 		fprintf(stderr,"Error initializing program text\n");
 		exit(1);
+	}
+
+	if(!pr_input) {
+		if(!(pr_input=create_symtab_node(symbol_table,"input",NULL,SYMTAB_NUL))) {
+			yyerror("Error creating input class\n");
+		}
+	}
+
+	if(!pr_output) {
+		if(!(pr_output=create_symtab_node(symbol_table,"output",NULL,SYMTAB_NUL))) {
+			yyerror("Error creating output class\n");
+		}
+	}
+
+	if(!pr_result) {
+		if(!(pr_result=create_symtab_node(symbol_table,"result",NULL,SYMTAB_NUL))) {
+			yyerror("Error creating result class\n");
+		}
 	}
 
 	while(!feof(prin)) {
@@ -241,3 +259,8 @@ int main(int argc, char *argv[])
 
 	exit(0);
 }
+
+
+
+
+
