@@ -4,6 +4,9 @@
  * Gencomp grammar parsing code, written by Perry Harrington
  *
  * $Log$
+ * Revision 1.4  1998/10/03 01:04:58  pedward
+ * removed parse.h from the include list
+ *
  * Revision 1.3  1998/09/24 00:22:19  pedward
  * fixed foreach parsing so that if it doesn't find the class that it's looping in, it doesn't
  * generate the code.  Was causing a core because of another fix.
@@ -17,7 +20,6 @@
 #include <string.h>
 #include "symtab.h"
 #include "globals.h"
-#include "parse.h"
 #include "code.h"
 
 extern char *yytext;
