@@ -1,3 +1,15 @@
+/*
+ * $Id$
+ *
+ * Gencomp initialization and main, written by Perry Harrington
+ *
+ * $Log$
+ * Revision 1.4  1998/09/24 00:21:14  pedward
+ * commented out initialization of pr_(input|output|result), was breaking if (<class> != "NULL")
+ * initialization is deferred until a parm for the class it belongs to, is read
+ *
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -204,7 +216,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if(!pr_input) {
+/*	if(!pr_input) {
 		if(!(pr_input=create_symtab_node(symbol_table,"input",NULL,SYMTAB_NUL))) {
 			yyerror("Error creating input class\n");
 		}
@@ -220,7 +232,7 @@ int main(int argc, char *argv[])
 		if(!(pr_result=create_symtab_node(symbol_table,"result",NULL,SYMTAB_NUL))) {
 			yyerror("Error creating result class\n");
 		}
-	}
+	}*/
 
 	while(!feof(prin)) {
 		prparse();
