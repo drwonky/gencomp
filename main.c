@@ -4,6 +4,9 @@
  * Gencomp initialization and main, written by Perry Harrington
  *
  * $Log$
+ * Revision 1.5  1998/10/03 01:08:47  pedward
+ * renamed y.tab.h to template_tokens.h
+ *
  * Revision 1.4  1998/09/24 00:21:14  pedward
  * commented out initialization of pr_(input|output|result), was breaking if (<class> != "NULL")
  * initialization is deferred until a parm for the class it belongs to, is read
@@ -18,7 +21,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include "y.tab.h"
+#include "template_tokens.h"
 #include "symtab.h"
 #include "globals.h"
 #include "sp_parse.h"
