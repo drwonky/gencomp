@@ -26,9 +26,7 @@ nl	\n+
 
 %%
 
-{comment}		{
-				return PR_COMMENT;
-			}
+{comment}		;
 
 ^{define}		{
 				return PR_DEF;
