@@ -4,6 +4,9 @@
  * Gencomp stored procedure definition file grammar parsing code, written by Perry Harrington
  *
  * $Log$
+ * Revision 1.4  1998/10/08 01:30:16  pedward
+ * removed comment parsing code, comments are just filtered out at the lexer now.
+ *
  * Revision 1.3  1998/09/24 00:23:11  pedward
  * uncommented the initialization of the sp_* classes when a parameter for that class is parsed.
  * see main.c's comments for more info.
@@ -38,7 +41,7 @@ symtab_node	*node;
 %%
 
 sp:
-	proc_def comment_list parm_list type_define parameter_list 
+	proc_def parm_list type_define parameter_list
 	;
 
 proc_def:
@@ -65,18 +68,6 @@ proc_def:
 						free(p);
 					}
 				}
-	;
-
-comment_list:
-	| comment_list comment
-	;
-
-comment: /* null for no comment */
-	PR_COMMENT		{ 
-					#if DEBUG == 9
-				printf("Comment: %s\n",$1); 
-					#endif
-			}
 	;
 
 parm_list:
