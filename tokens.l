@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "y.tab.h"
+#include "template_tokens.h"
 #include "globals.h"
 
 #define save_token(x) yylval.string=strdup(x)
