@@ -1,3 +1,15 @@
+/*
+ * $Id$
+ *
+ * Gencomp grammar parsing code, written by Perry Harrington
+ *
+ * $Log$
+ * Revision 1.3  1998/09/24 00:22:19  pedward
+ * fixed foreach parsing so that if it doesn't find the class that it's looping in, it doesn't
+ * generate the code.  Was causing a core because of another fix.
+ *
+*/
+
 %{
 
 #include <stdio.h>
@@ -205,38 +217,38 @@ foreach_statement:
 			printf("Foreach variable: '%s' class: '%s'\n",$2,$3); 
 		#endif
 
-		current_parent_class=node=lookup_symtab_node(symbol_table,$3);
-		if(node->child) {
+		if((current_parent_class=node=lookup_symtab_node(symbol_table,$3))) {
+			if(node->child) {
 
-			if(!create_symtab_node(symbol_table,$2,NULL,SYMTAB_NUL)) {
-				yyerror("Can't add %s foreach variable to symbol table");
+				if(!create_symtab_node(symbol_table,$2,NULL,SYMTAB_NUL)) {
+					yyerror("Can't add %s foreach variable to symbol table");
+				}
+
+				#if DEBUG >= 8
+					printf("Push parm on stack\n");		
+					printf("Alias parm\n");		
+					printf("output label\n");
+				#endif
+
+				/* push parm */
+				generate((Program *)program, op_push, ST_SYMTAB, lookup_symtab_node(symbol_table,$3));
+
+				/* alias parm's child to class' first entry's child */
+				/* pop's previous parm */
+				generate((Program *)program, op_alias, ST_STRING, $2);
+
+				sprintf(forlabel_tmp,"forlabel%d",forlabel_cnt++);
+
+				generate((Program *)program, op_label, ST_STRING, forlabel_tmp);
+
+			} else {
+				iflabel_ref[if_level]=iflabel_cnt++;
+				sprintf(iflabel_tmp,"iflabel%d",iflabel_ref[if_level]);
+				if_level++;
+
+				generate((Program *)program, op_jump, ST_STRING, iflabel_tmp);
 			}
-
-			#if DEBUG >= 8
-				printf("Push parm on stack\n");		
-				printf("Alias parm\n");		
-				printf("output label\n");
-			#endif
-
-			/* push parm */
-			generate((Program *)program, op_push, ST_SYMTAB, lookup_symtab_node(symbol_table,$3));
-
-			/* alias parm's child to class' first entry's child */
-			/* pop's previous parm */
-			generate((Program *)program, op_alias, ST_STRING, $2);
-
-			sprintf(forlabel_tmp,"forlabel%d",forlabel_cnt++);
-
-			generate((Program *)program, op_label, ST_STRING, forlabel_tmp);
-
-		} else {
-			iflabel_ref[if_level]=iflabel_cnt++;
-			sprintf(iflabel_tmp,"iflabel%d",iflabel_ref[if_level]);
-			if_level++;
-
-			generate((Program *)program, op_jump, ST_STRING, iflabel_tmp);
 		}
-
 	}
 	statement_block { /* gen loop code */
 		#if DEBUG >= 8
@@ -244,19 +256,21 @@ foreach_statement:
 			printf("Generate if not 0 goto label\n");
 		#endif
 
-		if(current_parent_class->child) {
-			/* iterative aliasing of parm to members in class */
-			/* if end of class push 0 else push 1 */
-			generate((Program *)program, op_next,ST_STRING,$2);
+		if(current_parent_class) {
+			if(current_parent_class->child) {
+				/* iterative aliasing of parm to members in class */
+				/* if end of class push 0 else push 1 */
+				generate((Program *)program, op_next,ST_STRING,$2);
 
-			/* jump if previous was true */
-			/* check top of stack and pop one */
-			generate((Program *)program, op_jumpnz, ST_STRING, forlabel_tmp);
-		} else {
-			if_level--;
+				/* jump if previous was true */
+				/* check top of stack and pop one */
+				generate((Program *)program, op_jumpnz, ST_STRING, forlabel_tmp);
+			} else {
+				if_level--;
 
-			sprintf(iflabel_tmp,"iflabel%d",iflabel_ref[if_level]);
-			generate((Program *)program, op_label, ST_STRING, iflabel_tmp);
+				sprintf(iflabel_tmp,"iflabel%d",iflabel_ref[if_level]);
+				generate((Program *)program, op_label, ST_STRING, iflabel_tmp);
+			}
 		}
 	}
 	;
