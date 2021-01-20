@@ -1,4 +1,4 @@
-This is a compiler that was writtein in 1998.  At that time I was interested in
+This is a compiler that was written in 1998.  At that time I was interested in
 compilers and worked on this while I was recovering from a motorcycle accident.
 
 I was presented with a project where we needed to generate template source code
