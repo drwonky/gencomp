@@ -8,7 +8,7 @@ We had a C based intermediate library called libsyb which was a wrapper to the
 Sybase OpenClient.  The libsyb library made it __easier__ to program to the OC
 API, but it was by no means easy.
 
-Intially this compiler would ingest a short definition file and then compile
+This compiler would ingest a short definition file and then compile
 and interpret a template generator.  The template generator was rewritten for
 each target programming language we supported.
 
